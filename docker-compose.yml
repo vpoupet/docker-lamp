@@ -5,8 +5,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ${PWD}/html:/var/www/html
-      - ${PWD}/config/php/:/usr/local/etc/php/
+      - ./html:/var/www/html
   phpmyadmin:
     image: phpmyadmin
     links:
@@ -14,7 +13,7 @@ services:
     ports:
       - "8080:80"
   mariadb:
-    image: mariadb:latest
+    image: mariadb
     ports:
       - "3306:3306"
     volumes:
