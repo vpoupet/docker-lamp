@@ -12,7 +12,7 @@ Configuration Docker pour déployer une pile LAMP (Linux, Apache, MySQL, PHP)
   ```
 3. Créer et démarrer les différents containers Docker:
   ```bash
-  docker-compose -d -p lamp up
+  docker-compose -p lamp up -d
   ```
 Si tout se passe bien, les différents containers devraient être exécutés en arrière-plan (l'option `-d` sert à démarrer les *containers* en arrière-plan, mais n'est pas toujours reconnue).
 
