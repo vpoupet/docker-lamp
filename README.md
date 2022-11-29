@@ -21,7 +21,7 @@ Si tout se passe bien, les différents containers devraient être exécutés en 
 Ces fichiers de configuiration Docker permettent de démarrer 3 composants :
 - un serveur Apache avec PHP
 - une base de données MariaDB (c'est du MySQL)
-- une serveur PhpMyAdmin pour accéder à la base de données
+- un serveur PhpMyAdmin pour accéder à la base de données
 
 ## Apache + PHP
 
@@ -35,8 +35,7 @@ Pour modifier les documents du serveur, modifiez le contenu du répertoire `./ht
 
 ### Personalisation
 
-Si vous devez configurer le serveur, vous pouvez d'une part modifier le fichier `php.ini` qui se trouve dans le répertoire `./config/php` (ou un des autres fichiers dans ce répertoire, qui correspond au répertoire `/usr/local/etc/php` qui contient la config de PHP).
-D'autre part, vous pouvez à tout moment vous connecter au container qui fait tourner le serveur en utilisant la commande
+Si vous devez configurer le serveur, vous pouvez ajouter des fichiers dans le répertoire `./config/php` (ou modifier un des fichiers déjà présents dans ce répertoire, qui correspond au répertoire `/usr/local/etc/php` du container qui contient la config de PHP). D'autre part, vous pouvez à tout moment vous connecter au container qui fait tourner le serveur en utilisant la commande
 ```bash
 docker exec -it lamp_apache-php_1 /bin/bash
 ```
