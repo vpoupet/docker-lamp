@@ -14,7 +14,7 @@ RUN a2enmod rewrite
 RUN docker-php-ext-enable opcache
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
-COPY config/files/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/
-COPY config/files/error_reporting.ini /usr/local/etc/php/conf.d/
+COPY config/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/
+COPY config/error_reporting.ini /usr/local/etc/php/conf.d/
 
 EXPOSE 80
