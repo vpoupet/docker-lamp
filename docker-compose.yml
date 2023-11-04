@@ -20,6 +20,7 @@ services:
     image: mariadb
     ports:
       - "3306:3306"
+    command: --lower_case_table_names=1
     volumes:
       - mariadb:/var/lib/mysql
     networks:

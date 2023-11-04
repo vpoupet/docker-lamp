@@ -12,7 +12,7 @@ Configuration Docker pour déployer une pile LAMP (Linux, Apache, MySQL, PHP)
   ```
 3. Créer et démarrer les différents containers Docker:
   ```bash
-  docker-compose -d -p lamp up
+  docker-compose -p lamp up -d
   ```
 Si tout se passe bien, les différents containers devraient être exécutés en arrière-plan (l'option `-d` sert à démarrer les *containers* en arrière-plan, mais n'est pas toujours reconnue).
 
@@ -21,7 +21,7 @@ Si tout se passe bien, les différents containers devraient être exécutés en 
 Ces fichiers de configuiration Docker permettent de démarrer 3 composants :
 - un serveur Apache avec PHP
 - une base de données MariaDB (c'est du MySQL)
-- une serveur PhpMyAdmin pour accéder à la base de données
+- un serveur PhpMyAdmin pour accéder à la base de données
 
 ## Apache + PHP
 
@@ -35,11 +35,34 @@ Pour modifier les documents du serveur, modifiez le contenu du répertoire `./ht
 
 ### Personalisation
 
-Si vous devez configurer le serveur, vous pouvez d'une part modifier le fichier `php.ini` qui se trouve dans le répertoire `./config/php` (ou un des autres fichiers dans ce répertoire, qui correspond au répertoire `/usr/local/etc/php` qui contient la config de PHP).
-D'autre part, vous pouvez à tout moment vous connecter au container qui fait tourner le serveur en utilisant la commande
+Si vous devez configurer le serveur, vous pouvez ajouter des fichiers dans le répertoire `./config/php` (ou modifier un des fichiers déjà présents dans ce répertoire, qui correspond au répertoire `/usr/local/etc/php` du container qui contient la config de PHP). D'autre part, vous pouvez à tout moment vous connecter au container qui fait tourner le serveur en utilisant la commande
 ```bash
 docker exec -it lamp_apache-php_1 /bin/bash
 ```
 Ceci ouvrira un shell dans la machine virtuelle du serveur, ce qui vous permettra d'exécuter les commandes de votre choix (vous pouvez installer des nouveaux programmes avec `apt-get` par exemple, ou éditer des fichiers avec `nano`, etc.).
 
 Si vous voulez que certaines commandes soient automatiquement exécutées quand vous créez le container Docker, vous pouvez les ajouter au fichier `Dockerfile` en ajoutant des lignes commençant par `RUN` (cf. `Dockerfile` dans lequel on exécute les commandes `apt-get update` puis `apt-get -y install nano`).
+
+
+## MariaDB
+
+*MariaDB* est une branche *open-source* du projet *MySQL* (donc en pratique ça s'utilise pareil).
+
+Le script `docker-compose` démarre un serveur avec un utilisateur `root` dont le mot de passe est « `admin` ». Vous pouvez changer le mot de passe en modifiant la ligne « `MARIADB_ROOT_PASSWORD: admin` » du fichier `docker-compose.yml`.
+
+Une fois lancé, le serveur est disponible sur le port 3306 de votre machine. Cependant, si vous voulez y accéder depuis un autre container *Docker* (ce qui sera probablement le cas si vous essayez de vous y connecter depuis un script PHP exécuté par le container *Apache*), vous devez donner le nom de machine (*hostname*) « `mariadb` ».
+
+Un exemple de connexion est donné dans le fichier `html/dbtest.php`, que vous pouvez exécuter en ouvrant l'URL
+
+    http://localhost/dbtest.php
+
+dans un navigateur pour vérifier que la connexion fonctionne).
+
+
+## PHPMyAdmin
+
+Si vous voulez administrer la base de données, vous pouvez utiliser l'interface *PHPMyAdmin* en ouvrant l'URL
+
+    http://localhost:8080/
+
+Cette interface se connecte au container *MariaDB* et permet de manipuler vos bases de données.
