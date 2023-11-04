@@ -6,20 +6,30 @@ services:
       - "80:80"
     volumes:
       - ./html:/var/www/html
+    networks:
+      - lamp-network
   phpmyadmin:
     image: phpmyadmin
     links:
       - mariadb:db
     ports:
       - "8080:80"
+    networks:
+      - lamp-network
   mariadb:
     image: mariadb
     ports:
       - "3306:3306"
     volumes:
       - mariadb:/var/lib/mysql
+    networks:
+      - lamp-network
     environment:
-      MARIADB_ROOT_PASSWORD: admin
+      MARIADB_ROOT_PASSWORD: azpoazui
 
 volumes:
     mariadb:
+
+networks:
+    lamp-network:
+      name: lamp-network
