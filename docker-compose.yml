@@ -26,7 +26,7 @@ services:
     networks:
       - lamp-network
     environment:
-      MARIADB_ROOT_PASSWORD: azpoazui
+      MARIADB_ROOT_PASSWORD: admin
 
 volumes:
     mariadb:
