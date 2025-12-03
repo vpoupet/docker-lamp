@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM php:apache
+FROM php:8.4-apache
 
 RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
 RUN apt-get update

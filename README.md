@@ -12,6 +12,10 @@ Configuration Docker pour déployer une pile LAMP (Linux, Apache, MySQL, PHP)
   ```
 3. Créer et démarrer les différents containers Docker:
   ```bash
+  docker compose -p lamp up -d
+  ```
+  ou, selon la version de *docker-compose* installée sur votre système :
+  ```bash
   docker-compose -p lamp up -d
   ```
 Si tout se passe bien, les différents containers devraient être exécutés en arrière-plan (l'option `-d` sert à démarrer les *containers* en arrière-plan, mais n'est pas toujours reconnue).
@@ -25,7 +29,7 @@ Ces fichiers de configuiration Docker permettent de démarrer 3 composants :
 
 ## Apache + PHP
 
-Par défaut, c'est l'image la plus récente de PHP qui est exécutée (8.1). Si vous devez utiliser une version précédente, vous pouvez modifier le contenu du fichier `Dockerfile` en changeant la ligne `FROM php:apache` (par exemple en `FROM php:7.4-apache`). Vous devez alors recréer l'image si elle avait été créée.
+Par défaut, c'est la version 8.4 de PHP qui est exécutée. Si vous devez utiliser une version précédente, vous pouvez modifier le contenu du fichier `Dockerfile` en changeant la ligne `FROM php:8.4-apache` (par exemple en `FROM php:7.4-apache`). Vous devez alors recréer l'image si elle avait été créée.
 
 Le serveur tourne sur le port 80 de la machine sur laquelle le *container* est exécuté (si vous devez changer ça, c'est dans le fichier `docker-compose.yml` dans la section `ports:` du bloc `apache-php:`. Vous pouvez par exemple mettre `- "3232:80"` pour utiliser le port 3232 de votre machine.
 
@@ -56,7 +60,7 @@ Un exemple de connexion est donné dans le fichier `html/dbtest.php`, que vous p
 
     http://localhost/dbtest.php
 
-dans un navigateur pour vérifier que la connexion fonctionne).
+dans un navigateur pour vérifier que la connexion fonctionne.
 
 
 ## PHPMyAdmin
@@ -66,3 +70,14 @@ Si vous voulez administrer la base de données, vous pouvez utiliser l'interface
     http://localhost:8080/
 
 Cette interface se connecte au container *MariaDB* et permet de manipuler vos bases de données.
+
+
+## Débugger avec XDebug
+
+Un gros avantage de cette image _docker_ est qu'elle correspond  une version de PHP qui a été compilée avec le support de _XDebug_, ce qui permet de débugger vos scripts PHP depuis un IDE comme _PhpStorm_ ou _VSCode_.
+
+Si vous utilisez _VSCode_, il faut installer l'extension _PHP Debug_ (de _Xdebug_) puis exécuter la configuration de débuggage « Listen for XDebug » qui est fournie dans le fichier `.vscode/launch.json` du projet (pour exécuter cette configuration il faut aller dans l'onglet « _Run and Debug_ » de _VSCode_).
+
+Pendant que cette configuration est active, si un script PHP s'exécute dans le container _Apache_, le débugger de _VSCode_ va s'arrêter sur les points d'arrêt que vous aurez placés dans votre code.
+
+Pour plus de détails, vous pouvez consulter [la documentation officielle de l'extension _PHP Debug_](https://marketplace.visualstudio.com/items?itemName=xdebug.php-debug).
